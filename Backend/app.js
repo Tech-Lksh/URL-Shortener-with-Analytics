@@ -14,8 +14,24 @@ const app = express();
 
 // Security & Performance Middleware
 app.use(helmet());
+const allowedOrigins = [
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+    'https://url-shortener-with-analytics-eight.vercel.app'
+];
+
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173', 'https://url-shortener-with-analytics-eight.vercel.app'],
+    origin: (origin, callback) => {
+        // Allow requests with no origin (like curl, mobile apps, or Postman)
+        if (!origin) return callback(null, true);
+        
+        const isAllowed = allowedOrigins.includes(origin) || 
+                          origin.startsWith('https://url-shortener-with-analytics-eight') ||
+                          origin.includes('localhost') || 
+                          origin.includes('127.0.0.1');
+                          
+        callback(null, isAllowed);
+    },
     credentials: true
 }));
 app.use(compression());
