@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:3000/api/v1',
+  baseURL: 'https://url-shortener-with-analytics-pjt8.onrender.com/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -36,7 +36,7 @@ api.interceptors.response.use(
       if (refreshToken) {
         try {
           // Fetch new access token
-          const response = await axios.post('http://localhost:3000/api/v1/auth/refresh', {
+          const response = await axios.post('https://url-shortener-with-analytics-pjt8.onrender.com/api/v1/auth/refresh', {
             refreshToken
           });
           
